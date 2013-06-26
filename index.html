@@ -36,7 +36,7 @@ function onSuccess(position) {
                 url: 'http://www.2030.mx/xxx/web/consultas/coordenadas.php',
                 success: function(data){
                     console.log(data);
-                    $('#coordenadas').text(data);
+                    $('#coordenadas').val(data);
                 },
                 error: function(data){
                     console.log(data);
