@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<head>
+  <meta http-equiv="content-type" content="text/html" />
+	<meta name="author" content="Aeon1" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false"></script>
+	<title>Ayudate</title>
+    <script type="text/javascript" charset="utf-8">
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    }
+
+	
+    function onConfirm(button) {
+       if (button==2){
+       navigator.app.exitApp();
+    	}
+    }
+    function showConfirm() {
+        navigator.notification.confirm(
+    'Desea salir de la aplicacion?',
+    onConfirm,
+    'Salir', 
+        'Cancelar,Salir' 
+        );
+    }
+    
+function onSuccess(position) {         
+   var spherical;
+        spherical = google.maps.geometry.spherical;
+    
+		var latitude = position.coords.latitude; // Latitud
+		var longitude = position.coords.longitude; // Longitud
+	//	var initialLocation = new google.maps.LatLng(latitude, longitude);        
+//        var image="images/smiley_happy.png";
+//		var marker = new google.maps.Marker({
+//			position: initialLocation,
+//			map: map,            
+//			title: "Estás aquí",
+//            icon: image
+//		});
+        
+    
+	   var actual = new google.maps.LatLng(latitude, longitude);
+      
+        var destino = new google.maps.LatLng(24.79623597481409,-107.4083948135376);
+        var intermedio = google.maps.geometry.spherical.computeDistanceBetween(destino, actual);
+        
+	}
+
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+$(document).bind('deviceready', function(){
+   
+            $.ajax({
+                type: 'GET',
+                // cargamos la url del servidor externo
+                url: 'http://www.2030.mx/xxx/web/consultas/coordenadas.php',
+                success: function(data){
+                    console.log(data);
+                    $('#coordenadas').html(data);
+                },
+                error: function(data){
+                    console.log(data);
+                    alert('Ocurrio un error al recuperar los datos');
+                }
+            });
+            return false;
+        });
+   
+
+    </script>
+</head>
+
+<body>
+
+<div data-role="page" id="inicio">
+    <div data-theme="a" data-role="header">
+        <h3>
+            Ciudad segura
+        </h3>
+    </div>
+    <div data-role="content">
+       <div id="coordenadas"></div>
+        <a data-role="button" href="#reportar" data-transition="slide">
+            Reportar
+        </a>
+        <a data-role="button" href="#mapa" data-transition="slide">
+            Lugares de incidencias
+        </a>
+    </div>
+</div>
+
+<div data-role="page" id="reportar">
+    <div data-theme="a" data-role="header">
+        <h3><a href="#inicio" data-role="button" data-icon="arrow-l" data-iconpos="left" data-inline="true" class="ui-btn-left" data-transition="flip">Atras</a>
+            Ciudad segura
+        </h3>
+    </div>
+    <div data-role="content">
+    <form>
+    <select size="1">
+	<option>Tipo de incidente</option>
+	<option value="Robo">Robo</option>
+	<option value="Violacion">Violacion</option>
+	<option value="Calle insegura">Calle insegura</option>
+	<option value="Pandillas">Pandillas</option>
+	<option value="Personas sospechosas">Personas sospechosas</option>
+</select>
+    </form>
+       
+    </div>
+</div>
+<div data-role="page" id="mapa">
+    <div data-theme="a" data-role="header">
+        <h3><a href="#inicio" data-role="button" data-icon="arrow-l" data-iconpos="left" data-inline="true" class="ui-btn-left" data-transition="flip">Atras</a>
+            Ciudad segura
+        </h3>
+    </div>
+    <div data-role="content">
+       
+    </div>
+</div>
+</body>
+</html>
