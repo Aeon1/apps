@@ -30,10 +30,11 @@
         );
     }
     var actual;
-    var incidencias;
+    var incidencias=0;
+    var lt;
 function onSuccess(position) {
     
-   
+   var bounds = new google.maps.LatLngBounds();
 		var latitude = position.coords.latitude; // Latitud
 		var longitude = position.coords.longitude; // Longitud
 		var initialLocation = new google.maps.LatLng(latitude, longitude);
@@ -41,50 +42,24 @@ function onSuccess(position) {
 var spherical;
         spherical = google.maps.geometry.spherical; 
         $.get("http://www.2030.mx/xxx/web/consultas/coordenadas.php", {}, function(data) {
-                var datos=data.split('*');
-                    var num=datos.length;
-                    alert(num+'--'+actual);
-                    for (i=0;i<num; ++i){
-                        var destino = new google.maps.LatLng(datos[i]);
-                        var intermedio = google.maps.geometry.spherical.computeDistanceBetween(destino, actual);
-                        if (distacia>500){
-                            incidencias=incidencias+1
+                var datos=data.split('*');                
+                      
+                    var distancia; 
+                    var destino;            
+                    for (i=0;i<=datos.length-1;i++){
+                    latlon=datos[i].split(',');
+                    
+                        destino = new google.maps.LatLng(latlon[0],latlon[1]);
+                        distancia = google.maps.geometry.spherical.computeDistanceBetween(destino, actual);
+                        if (distancia<=500){
+                            incidencias=incidencias + 1
                         }
                     }
                 if (incidencias>=3){
-                    vibrate();
+                   playBeep();
                 }
             });
-//   $.ajax({
-//                type: 'GET',
-//                url: 'http:www.2030.mx/xxx/web/consultas/coordenadas.php',
-//                success: function(data){
-//                    console.log(data);
-//                    var datos=data.split('*');
-//                    alert(datos);
-//                    var num=datos.length;
-//                    for (i=0;i<num; ++i){
-//                        var destino = new google.maps.LatLng(datos[i]);
-//                        var intermedio = google.maps.geometry.spherical.computeDistanceBetween(destino, actual);
-//                        if (distacia>500){
-//                            incidencias=incidencias+1
-//                        }
-//                    }
-//                if (incidencias>=3){
-//                    vibrate();
-//                }
-//                },
-//                error: function(data){
-//                    console.log(data);
-//                    alert('Ocurrio un error al recuperar los datos');
-//                }
-//            });
-	    
-         
-       
-        
-        
-        
+
 	}
 
     function onError(error) {
@@ -108,8 +83,8 @@ var map;
             icon: image
 		});
   }
-  function vibrate() {
-        navigator.notification.vibrate(2000);
+  function playBeep() {
+        navigator.notification.beep(3);
     }
 
     </script>
@@ -124,11 +99,10 @@ var map;
         </h3>
     </div>
     <div data-role="content">
-       <input type="text" id="coordenadas" />
         <a data-role="button" href="#reportar" data-transition="slide">
             Reportar
         </a>
-        <a data-role="button" href="#mapa" data-transition="slide" onclick="inicialize()">
+        <a data-role="button" href="#mapa" data-transition="slide" onclick=" inicialize()" >
             Lugares de incidencias
         </a>
     </div>
