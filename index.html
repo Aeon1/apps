@@ -47,7 +47,9 @@ var spherical;
                 success: function(data){
                     console.log(data);
                     var datos=data.split('*');
+                    alert(datos);
                     var num=datos.length;
+                    alert(num);
                     for (i=0;i<num; ++i){
                         var destino = new google.maps.LatLng(datos[i]);
                         var intermedio = google.maps.geometry.spherical.computeDistanceBetween(destino, actual);
