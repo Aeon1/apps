@@ -40,16 +40,10 @@ function onSuccess(position) {
        actual = new google.maps.LatLng(latitude, longitude);
 var spherical;
         spherical = google.maps.geometry.spherical; 
-        
-   $.ajax({
-                type: 'GET',
-                url: 'http:www.2030.mx/xxx/web/consultas/coordenadas.php',
-                success: function(data){
-                    console.log(data);
-                    var datos=data.split('*');
+        $.get("http:www.2030.mx/xxx/web/consultas/coordenadas.php", {}, function(data) {
+                var datos=data.split('*');
                     alert(datos);
                     var num=datos.length;
-                    alert(num);
                     for (i=0;i<num; ++i){
                         var destino = new google.maps.LatLng(datos[i]);
                         var intermedio = google.maps.geometry.spherical.computeDistanceBetween(destino, actual);
@@ -60,12 +54,31 @@ var spherical;
                 if (incidencias>=3){
                     vibrate();
                 }
-                },
-                error: function(data){
-                    console.log(data);
-                    alert('Ocurrio un error al recuperar los datos');
-                }
             });
+//   $.ajax({
+//                type: 'GET',
+//                url: 'http:www.2030.mx/xxx/web/consultas/coordenadas.php',
+//                success: function(data){
+//                    console.log(data);
+//                    var datos=data.split('*');
+//                    alert(datos);
+//                    var num=datos.length;
+//                    for (i=0;i<num; ++i){
+//                        var destino = new google.maps.LatLng(datos[i]);
+//                        var intermedio = google.maps.geometry.spherical.computeDistanceBetween(destino, actual);
+//                        if (distacia>500){
+//                            incidencias=incidencias+1
+//                        }
+//                    }
+//                if (incidencias>=3){
+//                    vibrate();
+//                }
+//                },
+//                error: function(data){
+//                    console.log(data);
+//                    alert('Ocurrio un error al recuperar los datos');
+//                }
+//            });
 	    
          
        
