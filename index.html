@@ -7,7 +7,7 @@
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=true"></script>
 	<title>Ayudate</title>
     <script type="text/javascript" charset="utf-8">
     document.addEventListener("deviceready", onDeviceReady, false);
@@ -30,38 +30,43 @@
         );
     }
     var actual;
+    var incidencias;
 function onSuccess(position) {
-    $.ajax({
+    
+   
+		var latitude = position.coords.latitude; // Latitud
+		var longitude = position.coords.longitude; // Longitud
+		var initialLocation = new google.maps.LatLng(latitude, longitude);
+       actual = new google.maps.LatLng(latitude, longitude);
+var spherical;
+        spherical = google.maps.geometry.spherical; 
+        
+   $.ajax({
                 type: 'GET',
-                url: 'http://www.2030.mx/xxx/web/consultas/coordenadas.php',
+                url: 'http:www.2030.mx/xxx/web/consultas/coordenadas.php',
                 success: function(data){
                     console.log(data);
-                    $('#coordenadas').val(data);
+                    var datos=data.split('*');
+                    var num=datos.length;
+                    for (i=0;i<num; ++i){
+                        var destino = new google.maps.LatLng(datos[i]);
+                        var intermedio = google.maps.geometry.spherical.computeDistanceBetween(destino, actual);
+                        if (distacia>500){
+                            incidencias=incidencias+1
+                        }
+                    }
+                if (incidencias>=3){
+                    vibrate();
+                }
                 },
                 error: function(data){
                     console.log(data);
                     alert('Ocurrio un error al recuperar los datos');
                 }
             });
-   var spherical;
-        spherical = google.maps.geometry.spherical;
-    
-		var latitude = position.coords.latitude; // Latitud
-		var longitude = position.coords.longitude; // Longitud
-		var initialLocation = new google.maps.LatLng(latitude, longitude);        
-        //var image="smiley_happy.png";
-		var marker = new google.maps.Marker({
-			position: initialLocation,
-			map: map,            
-			title: "Estás aquí",
-            icon: image
-		});
-        
-   
-	    actual = new google.maps.LatLng(latitude, longitude);
-      
-        var destino = new google.maps.LatLng(24.79623597481409,-107.4083948135376);
-        var intermedio = google.maps.geometry.spherical.computeDistanceBetween(destino, actual);
+	    
+         
+       
         
         
         
@@ -71,7 +76,7 @@ function onSuccess(position) {
         alert('code: '    + error.code    + '\n' +
               'message: ' + error.message + '\n');
     }
- var map;
+var map;
   function inicialize(){
     var mapOptions = {
           zoom: 13,
@@ -80,7 +85,17 @@ function onSuccess(position) {
         };
     map = new google.maps.Map(document.getElementById('map_canvas'),
             mapOptions);
+             var image="http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-0ffa3e/shapecolor-color/shadow-1/border-dark/symbolstyle-white/symbolshadowstyle-dark/gradient-no/smiley_happy.png";
+		var marker = new google.maps.Marker({
+			position: actual,
+			map: map,            
+			title: "Estás aquí",
+            icon: image
+		});
   }
+  function vibrate() {
+        navigator.notification.vibrate(2000);
+    }
 
     </script>
 </head>
