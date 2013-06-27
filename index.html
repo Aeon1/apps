@@ -9,6 +9,7 @@
     <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=true"></script>
 	<title>Ayudate</title>
+  
     <script type="text/javascript" charset="utf-8">
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
@@ -35,12 +36,11 @@
     var lt;
 function onSuccess(position) {
     
-   var bounds = new google.maps.LatLngBounds();
 		var latitude = position.coords.latitude; // Latitud
 		var longitude = position.coords.longitude; // Longitud
 		var initialLocation = new google.maps.LatLng(latitude, longitude);
        actual = new google.maps.LatLng(latitude, longitude);
-var spherical;
+        var spherical;
         spherical = google.maps.geometry.spherical; 
         $.get("http://www.2030.mx/xxx/web/consultas/coordenadas.php", {}, function(data) {
                 var datos=data.split('*');                
@@ -57,7 +57,8 @@ var spherical;
                         }
                     }
                 if (incidencias>=3){
-                   vibrate() ;
+                    alert('mas de 3 incidencias cercanas');
+                  vibrate();
                 }
             });
 
@@ -90,7 +91,7 @@ var map;
     }
     
     function onPause() {
-         var t=setInterval(function(){onSuccess()},10000);
+        var t=setInterval(function(){vibrate()},10000);
     }
 
     </script>
