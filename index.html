@@ -13,6 +13,7 @@
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
         navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        document.addEventListener("pause", onPause, false);
     }
 
 	
@@ -66,6 +67,7 @@ var spherical;
         alert('code: '    + error.code    + '\n' +
               'message: ' + error.message + '\n');
     }
+    
 var map;
   function inicialize(){
     var mapOptions = {
@@ -85,6 +87,10 @@ var map;
   }
   function playBeep() {
         navigator.notification.beep(3);
+    }
+    
+    function onPause() {
+        var t=setTimeout(function(){playBeep()},10000);
     }
 
     </script>
