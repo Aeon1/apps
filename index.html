@@ -57,7 +57,7 @@ var spherical;
                         }
                     }
                 if (incidencias>=3){
-                   playBeep();
+                   vibrate() ;
                 }
             });
 
@@ -85,12 +85,12 @@ var map;
             icon: image
 		});
   }
-  function playBeep() {
-        navigator.notification.beep(3);
+  function vibrate() {
+        navigator.notification.vibrate(2000);
     }
     
     function onPause() {
-         var t=setInterval(function(){playBeep()},10000);
+         var t=setInterval(function(){vibrate() },10000);
     }
 
     </script>
