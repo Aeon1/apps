@@ -45,7 +45,7 @@ function onSuccess(position) {
         spherical = google.maps.geometry.spherical; 
 		var latitude = position.coords.latitude; // Latitud
 		var longitude = position.coords.longitude; // Longitud
-        alert(latitudde);
+        alert(latitude);
 		var avance = new google.maps.LatLng(latitude, longitude);
         if (actual != avance){
            var recorrido = google.maps.geometry.spherical.computeDistanceBetween(avance, actual);
