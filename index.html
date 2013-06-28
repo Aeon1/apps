@@ -17,7 +17,7 @@
         document.addEventListener("pause", onPause, false);
     }
 
-	
+	var watchID = null;
     function onConfirm(button) {
        if (button==2){
        navigator.app.exitApp();
@@ -103,10 +103,12 @@ var map;
   }
   function vibrate() {
         navigator.notification.vibrate(2000);
+        alert( position.coords.latitude+','+position.coords.longitude);
     }
     
     function onPause() {
-        var t=setInterval(function(){vibrate()},10000);
+        var options = { frequency: 3000 };
+        watchID = navigator.geolocation.watchPosition(vibrate(), onError, options);
     }
 
     </script>
