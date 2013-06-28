@@ -57,12 +57,13 @@ function onSuccess(position) {
                             incidencias=incidencias + 1
                         }
                     }
+                    
                 if (incidencias>=3){
                     alert('mas de 3 incidencias cercanas');
-                  vibrate();
-                }
-                inicialize();
+                                  }
+                                  inicialize();
             });
+            
             }
 var cityCircle;
 
@@ -94,12 +95,12 @@ var map;
     };
     cityCircle = new google.maps.Circle(populationOptions);
   }
-             var image="http:mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-0ffa3e/shapecolor-color/shadow-1/border-dark/symbolstyle-white/symbolshadowstyle-dark/gradient-no/smiley_happy.png";
+             //var image="http:mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-0ffa3e/shapecolor-color/shadow-1/border-dark/symbolstyle-white/symbolshadowstyle-dark/gradient-no/smiley_happy.png";
 		var marker = new google.maps.Marker({
 			position: actual,
 			map: map,            
 			title: "Estás aquí",
-            icon: image
+           // icon: image
 		});
         
   }
