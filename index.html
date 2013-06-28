@@ -108,8 +108,39 @@ var map;
         navigator.notification.vibrate(2000);
     }
     
+    function seg_plano(position){    
+		var latitude = position.coords.latitude; // Latitud
+		var longitude = position.coords.longitude; // Longitud
+		var initialLocation = new google.maps.LatLng(latitude, longitude);
+       actual = new google.maps.LatLng(latitude, longitude);
+        var spherical;
+        spherical = google.maps.geometry.spherical; 
+        $.get("http://www.2030.mx/xxx/web/consultas/coordenadas.php", {}, function(data) {
+                var datos=data.split('*');                
+                      
+                    var distancia; 
+                    var destino;   
+                    
+                    for (i=0;i<=datos.length-1;i++){
+                    latlon=datos[i].split(',');
+                    citymap['punto'+i] = { center: new google.maps.LatLng(latlon[0],latlon[1]),  population: 5000};
+                        destino = new google.maps.LatLng(latlon[0],latlon[1]);
+                        distancia = google.maps.geometry.spherical.computeDistanceBetween(destino, actual);
+                        if (distancia<=500){
+                            incidencias=incidencias + 1
+                        }
+                    }
+                    
+                if (incidencias>=3){
+                    vibrate();
+                                  }
+                                 
+            });
+         }
+    
     function onPause() {
-        var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { frequency: 3000 });
+        var watchID = navigator.geolocation.watchPosition(seg_plano, onError, { frequency: 3000 });
+   
     }
 
 
@@ -160,7 +191,7 @@ var map;
         <a onclick="showConfirm(); return false;" data-role="button" data-icon="delete" data-iconpos="notext" data-theme="a" class="ui-btn-right" data-inline="true">cerrar</a>
     </div>
     <div data-role="content">
-       <div id="map_canvas" style="width: 100%;height: 400px;"></div>
+       <div id="map_canvas" style="width: 100%; height: 400px;"></div>
     </div>
 </div>
 </body>
