@@ -33,8 +33,9 @@
     var actual;
     var incidencias=0;
     var lt;
+    var citymap = {};
 function onSuccess(position) {
-    
+    inicialize();
 		var latitude = position.coords.latitude; // Latitud
 		var longitude = position.coords.longitude; // Longitud
 		var initialLocation = new google.maps.LatLng(latitude, longitude);
@@ -46,7 +47,7 @@ function onSuccess(position) {
                       
                     var distancia; 
                     var destino;   
-                    var citymap = {};
+                    
                     for (i=0;i<=datos.length-1;i++){
                     latlon=datos[i].split(',');
                     citymap['punto'] = { center: new google.maps.LatLng(latlon[0],latlon[1]),  population: 5000};
@@ -61,8 +62,8 @@ function onSuccess(position) {
                   vibrate();
                 }
             });
-	var cityCircle;
-	}
+            }
+var cityCircle;
 
     function onError(error) {
         alert('code: '    + error.code    + '\n' +
@@ -76,7 +77,10 @@ var map;
           center: actual,
           mapTypeId: google.maps.MapTypeId.TERRAIN
         };
-        for (var city in citymap) {     
+        
+    map = new google.maps.Map(document.getElementById('map_canvas'),
+            mapOptions);
+            for (var city in citymap) {     
     var populationOptions = {
       strokeColor: '#FF0000',
       strokeOpacity: 0.8,
@@ -89,8 +93,6 @@ var map;
     };
     cityCircle = new google.maps.Circle(populationOptions);
   }
-    map = new google.maps.Map(document.getElementById('map_canvas'),
-            mapOptions);
              var image="http:mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-0ffa3e/shapecolor-color/shadow-1/border-dark/symbolstyle-white/symbolshadowstyle-dark/gradient-no/smiley_happy.png";
 		var marker = new google.maps.Marker({
 			position: actual,
@@ -98,6 +100,7 @@ var map;
 			title: "Estás aquí",
             icon: image
 		});
+        
   }
   function vibrate() {
         navigator.notification.vibrate(2000);
@@ -121,7 +124,7 @@ var map;
         <a data-role="button" href="#reportar" data-transition="slide">
             Reportar
         </a>
-        <a data-role="button" href="#mapa" data-transition="slide" onclick="inicialize()" >
+        <a data-role="button" href="#mapa" data-transition="slide" >
             Lugares de incidencias
         </a>
     </div>
