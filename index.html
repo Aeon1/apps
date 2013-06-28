@@ -106,10 +106,11 @@ var map;
         alert( position.coords.latitude+','+position.coords.longitude);
     }
     
-    function onPause() {
-        var options = { frequency: 3000 };
-        watchID = navigator.geolocation.watchPosition(vibrate(), onError, options);
-    }
+  //  function onPause() {
+//        var options = { frequency: 3000 };
+//        watchID = navigator.geolocation.watchPosition(vibrate(), onError, options);
+//    }
+var watchID = navigator.geolocation.watchPosition(vibrate, onError, { frequency: 3000 });
 
     </script>
 </head>
