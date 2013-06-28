@@ -61,7 +61,7 @@ function onSuccess(position) {
                 if (incidencias>=3){
                     alert('mas de 3 incidencias cercanas');
                                   }
-                                  inicialize();
+                            inicialize();      
             });
             
             }
@@ -109,6 +109,7 @@ var map;
     }
     
     function onPause() {
+        var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { frequency: 3000 });
     }
 
 
