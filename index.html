@@ -17,7 +17,6 @@
         document.addEventListener("pause", onPause, false);
     }
 
-	var watchID = null;
     function onConfirm(button) {
        if (button==2){
        navigator.app.exitApp();
@@ -77,8 +76,7 @@ var map;
           center: actual,
           mapTypeId: google.maps.MapTypeId.TERRAIN
         };
-        for (var city in citymap) {
-     Construct the circle for each value in citymap. We scale population by 20.
+        for (var city in citymap) {     
     var populationOptions = {
       strokeColor: '#FF0000',
       strokeOpacity: 0.8,
@@ -105,10 +103,8 @@ var map;
         navigator.notification.vibrate(2000);
     }
     
-  //  function onPause() {
-//        var options = { frequency: 3000 };
-//        watchID = navigator.geolocation.watchPosition(vibrate(), onError, options);
-//    }
+    function onPause() {
+    }
 
 
     </script>
