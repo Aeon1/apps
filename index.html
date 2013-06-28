@@ -50,7 +50,7 @@ function onSuccess(position) {
                     
                     for (i=0;i<=datos.length-1;i++){
                     latlon=datos[i].split(',');
-                    citymap['punto'] = { center: new google.maps.LatLng(latlon[0],latlon[1]),  population: 5000};
+                    citymap['punto'+i] = { center: new google.maps.LatLng(latlon[0],latlon[1]),  population: 5000};
                         destino = new google.maps.LatLng(latlon[0],latlon[1]);
                         distancia = google.maps.geometry.spherical.computeDistanceBetween(destino, actual);
                         if (distancia<=500){
