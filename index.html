@@ -32,25 +32,46 @@
         'Cancelar,Salir' 
         );
     }
-    var actual = new google.maps.LatLng(64.2008413,-149.4936733);
-    var incidencias=0;
-    var lt;
+    
     var citymap = {};
-     var distancia; 
-     var destino;
+    var actual = new google.maps.LatLng(64.2008413,-149.4936733);
+    
+    var lt;
+    var distancia; 
+    var destino; 
 function onSuccess(position) {
+    
     var spherical;
-    var avance;
-    spherical = google.maps.geometry.spherical; 
+        spherical = google.maps.geometry.spherical; 
 		var latitude = position.coords.latitude; // Latitud
 		var longitude = position.coords.longitude; // Longitud
-		var initialLocation = new google.maps.LatLng(latitude, longitude);
-      //  var nuevas = new google.maps.LatLng(latitude, longitude);
-//       if (actual!=nuevas){
-//           avance= google.maps.geometry.spherical.computeDistanceBetween(nuevas, actual);//metros recorridos en 5 min
-//               if (avance>500){
-//          actual = new google.maps.LatLng(latitude, longitude);
-//          $.get("http:www.2030.mx/xxx/web/consultas/coordenadas.php", {}, function(data) {
+		var avance = new google.maps.LatLng(latitude, longitude);
+        if (actual != avance){
+           var recorrido = google.maps.geometry.spherical.computeDistanceBetween(avance, actual);
+           if (recorrido>500){
+            var incidencias=0;
+            actual = new google.maps.LatLng(latitude, longitude);  
+            $.get("http://www.2030.mx/xxx/web/consultas/coordenadas.php", {}, function(data) {
+                var datos=data.split('*');                
+                     for (i=0;i<=datos.length-1;i++){
+                    latlon=datos[i].split(',');
+                    citymap['punto'+i] = { center: new google.maps.LatLng(latlon[0],latlon[1]),  population: 5000};
+                        destino = new google.maps.LatLng(latlon[0],latlon[1]);
+                        distancia = google.maps.geometry.spherical.computeDistanceBetween(destino, actual);
+                        if (distancia<=500){
+                            incidencias=incidencias + 1
+                        }
+                    }
+                if (incidencias>=3){
+                    vibrate();
+                  
+                }inicialize();
+                 });
+            
+           }
+        }
+       //actual = new google.maps.LatLng(latitude, longitude);        
+//        $.get("http://www.2030.mx/xxx/web/consultas/coordenadas.php", {}, function(data) {
 //                var datos=data.split('*');                
 //                     for (i=0;i<=datos.length-1;i++){
 //                    latlon=datos[i].split(',');
@@ -61,35 +82,14 @@ function onSuccess(position) {
 //                            incidencias=incidencias + 1
 //                        }
 //                    }
-//                    
 //                if (incidencias>=3){
-//                    vibrate();
-//                                  }  
-//                                  inicialize();   
-//            });  
-//        }
-//        }
-        actual = new google.maps.LatLng(latitude, longitude);
-        $.get("http:www.2030.mx/xxx/web/consultas/coordenadas.php", {}, function(data) {
-                var datos=data.split('*');              
-                      
-                   
-                    for (i=0;i<=datos.length-1;i++){
-                    latlon=datos[i].split(',');
-                    citymap['punto'+i] = { center: new google.maps.LatLng(latlon[0],latlon[1]),  population: 5000};
-                        destino = new google.maps.LatLng(latlon[0],latlon[1]);
-                        distancia = google.maps.geometry.spherical.computeDistanceBetween(destino, actual);
-                        if (distancia<=500){
-                            incidencias=incidencias + 1
-                        }
-                    }
-                    
-                if (incidencias>=3){
-                    alert('mas de 3 incidencias cercanas');
-                                  }
-                            inicialize();      
-            });
-            }
+//                    alert('mas de 3 incidencias cercanas');
+//                  
+//                }
+//                inicialize();
+//            });
+
+	}
 var cityCircle;
 
     function onError(error) {
@@ -134,7 +134,7 @@ var map;
     }
     
     function onPause() {
-        var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { frequency: 3000000 });
+        var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { frequency: 5000 });
    
     }
 
