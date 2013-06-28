@@ -45,14 +45,13 @@ function onSuccess(position) {
         spherical = google.maps.geometry.spherical; 
 		var latitude = position.coords.latitude; // Latitud
 		var longitude = position.coords.longitude; // Longitud
-        alert(latitude);
 		var avance = new google.maps.LatLng(latitude, longitude);
-        if (actual != avance){
+        if (actual != avance){alert('bien');
            var recorrido = google.maps.geometry.spherical.computeDistanceBetween(avance, actual);
-           if (recorrido>500){
+           if (recorrido>500){alert('bien 1');
             var incidencias=0;
             actual = new google.maps.LatLng(latitude, longitude);  
-            $.get("http://www.2030.mx/xxx/web/consultas/coordenadas.php", {}, function(data) {
+            $.get("http://www.2030.mx/xxx/web/consultas/coordenadas.php", {}, function(data) {alert('bien 2');
                 var datos=data.split('*');                
                      for (i=0;i<=datos.length-1;i++){
                     latlon=datos[i].split(',');
