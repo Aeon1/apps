@@ -35,7 +35,7 @@
     var lt;
     var citymap = {};
 function onSuccess(position) {
-    inicialize();
+    
 		var latitude = position.coords.latitude; // Latitud
 		var longitude = position.coords.longitude; // Longitud
 		var initialLocation = new google.maps.LatLng(latitude, longitude);
@@ -61,6 +61,7 @@ function onSuccess(position) {
                     alert('mas de 3 incidencias cercanas');
                   vibrate();
                 }
+                inicialize();
             });
             }
 var cityCircle;
