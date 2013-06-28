@@ -46,10 +46,11 @@ function onSuccess(position) {
                 var datos=data.split('*');                
                       
                     var distancia; 
-                    var destino;            
+                    var destino;   
+                    var citymap = {};
                     for (i=0;i<=datos.length-1;i++){
                     latlon=datos[i].split(',');
-                    
+                    citymap['chicago'] = { center: new google.maps.LatLng(latlon[0],latlon[1]),  population: 5000};
                         destino = new google.maps.LatLng(latlon[0],latlon[1]);
                         distancia = google.maps.geometry.spherical.computeDistanceBetween(destino, actual);
                         if (distancia<=500){
@@ -61,7 +62,7 @@ function onSuccess(position) {
                   vibrate();
                 }
             });
-
+	var cityCircle;
 	}
 
     function onError(error) {
@@ -76,6 +77,20 @@ var map;
           center: actual,
           mapTypeId: google.maps.MapTypeId.TERRAIN
         };
+        for (var city in citymap) {
+    // Construct the circle for each value in citymap. We scale population by 20.
+    var populationOptions = {
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      map: map,
+      center: citymap[city].center,
+      radius: citymap[city].population / 20
+    };
+    cityCircle = new google.maps.Circle(populationOptions);
+  }
     map = new google.maps.Map(document.getElementById('map_canvas'),
             mapOptions);
              var image="http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-0ffa3e/shapecolor-color/shadow-1/border-dark/symbolstyle-white/symbolshadowstyle-dark/gradient-no/smiley_happy.png";
