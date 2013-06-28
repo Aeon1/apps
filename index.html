@@ -46,12 +46,12 @@ function onSuccess(position) {
 		var latitude = position.coords.latitude; // Latitud
 		var longitude = position.coords.longitude; // Longitud
 		var avance = new google.maps.LatLng(latitude, longitude);
-        if (actual != avance){alert('bien');
+        if (actual != avance){
            var recorrido = google.maps.geometry.spherical.computeDistanceBetween(avance, actual);
-           if (recorrido>500){alert('bien 1');
+           if (recorrido>500){
             var incidencias=0;
             actual = new google.maps.LatLng(latitude, longitude);  
-            $.get("http://www.2030.mx/xxx/web/consultas/coordenadas.php", {}, function(data) {alert('bien 2');
+            $.get("http://www.2030.mx/xxx/web/consultas/coordenadas.php", {}, function(data) {
                 var datos=data.split('*');                
                      for (i=0;i<=datos.length-1;i++){
                     latlon=datos[i].split(',');
